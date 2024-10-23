@@ -1,11 +1,24 @@
+import { IconDefinition, SizeProp } from "@fortawesome/fontawesome-svg-core";
 import "./Button.scoped.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export type ButtonProps = {
-  onClick: () => void;
-  name: string;
+  onClick?: () => void;
+  text?: string;
+  type: any;
+  className?: string;
+  icon?: IconDefinition;
+  iconSize?: SizeProp;
 };
 
-const Button = ({ onClick }: ButtonProps): JSX.Element => {
+const Button = ({
+  onClick,
+  text,
+  type,
+  className,
+  icon,
+  iconSize,
+}: ButtonProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,7 +39,12 @@ const Button = ({ onClick }: ButtonProps): JSX.Element => {
   // Component's render method
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  return <div>Button</div>;
+  return (
+    <button onClick={onClick} type={type} className={className}>
+      {icon && <FontAwesomeIcon size={iconSize} icon={icon} />}
+      {text}
+    </button>
+  );
 };
 
 export default Button;

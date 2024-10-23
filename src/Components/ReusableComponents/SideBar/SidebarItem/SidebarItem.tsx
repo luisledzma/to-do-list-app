@@ -1,12 +1,14 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./SidebarItem.scoped.scss";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 export type SidebarItemProps = {
-  name: string;
-  icon: any;
+  text: string;
+  icon: IconDefinition;
   linkTo: string;
 };
 
-const SidebarItem = ({ name, icon, linkTo }: SidebarItemProps): JSX.Element => {
+const SidebarItem = ({ text, icon, linkTo }: SidebarItemProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,16 +35,8 @@ const SidebarItem = ({ name, icon, linkTo }: SidebarItemProps): JSX.Element => {
         href={linkTo}
         className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
       >
-        <svg
-          className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          viewBox="0 0 18 18"
-        >
-          {icon}
-        </svg>
-        <span className="ms-3">{name}</span>
+        <FontAwesomeIcon icon={icon} />
+        <span className="ms-3">{text}</span>
       </a>
     </li>
   );
