@@ -1,9 +1,8 @@
+import { faBars, faHouse, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import Button from "../Button/Button";
 import "./SideBar.scoped.scss";
 import SidebarItem from "./SidebarItem/SidebarItem";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faXmark, faBars } from "@fortawesome/free-solid-svg-icons";
-import Button from "../Button/Button";
 
 export type SideBarProps = {};
 
@@ -48,7 +47,7 @@ const SideBar = (): JSX.Element => {
         } sm:translate-x-0`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 flex flex-col justify-between">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-background-light dark:bg-background-dark3 flex flex-col justify-between">
           <Button
             onClick={toggleSidebar}
             className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 sm:hidden"
@@ -82,7 +81,7 @@ const SideBar = (): JSX.Element => {
               onClick={() => {}}
               type={"button"}
               text="New List"
-              className="w-full p-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors"
+              className="w-full p-3 bg-primary-2 text-gray-100 font-semibold rounded-lg hover:bg-primary-1 transition-colors"
             ></Button>
           </div>
         </div>

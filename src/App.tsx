@@ -5,7 +5,7 @@ import SideBar from "./Components/ReusableComponents/SideBar/SideBar";
 
 function App() {
   return (
-    <div>
+    <div className="dark:bg-background-dark1">
       <SideBar></SideBar>
       <Router>
         <Routes>

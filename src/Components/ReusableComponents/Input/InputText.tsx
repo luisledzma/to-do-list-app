@@ -1,14 +1,11 @@
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import LinkTo from "../../LinkTo/LinkTo";
-import "./SidebarItem.scoped.scss";
+import "./InputText.scoped.scss";
 
-export type SidebarItemProps = {
-  text: string;
-  icon: IconDefinition;
-  linkTo: string;
+export type InputTextProps = {
+  className: string;
+  placeholder?: string;
 };
 
-const SidebarItem = ({ text, icon, linkTo }: SidebarItemProps): JSX.Element => {
+const InputText = ({ className, placeholder }: InputTextProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,15 +27,8 @@ const SidebarItem = ({ text, icon, linkTo }: SidebarItemProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
-    <li>
-      <LinkTo
-        linkTo={linkTo}
-        text={text}
-        icon={icon}
-        className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-background-dark6 group"
-      ></LinkTo>
-    </li>
+    <input type="text" className={className} placeholder={placeholder}></input>
   );
 };
 
-export default SidebarItem;
+export default InputText;
