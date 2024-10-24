@@ -39,7 +39,7 @@ const CheckBox = ({ text, value }: CheckBoxProps): JSX.Element => {
 
   return (
     <div
-      className="flex items-center space-x-3 cursor-pointer"
+      className="flex items-center space-x-3 cursor-pointer select-none"
       onClick={toggleCheckbox}
     >
       <FontAwesomeIcon
