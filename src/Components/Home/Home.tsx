@@ -4,9 +4,11 @@ import CheckBox from "../ReusableComponents/CheckBox/CheckBox";
 import InputText from "../ReusableComponents/Input/InputText";
 import "./Home.scoped.scss";
 
-export type HomeProps = {};
+export type HomeProps = {
+  setIsDrawerOpen: any;
+};
 
-const Home = (): JSX.Element => {
+const Home = ({ setIsDrawerOpen }: HomeProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,7 +38,11 @@ const Home = (): JSX.Element => {
       <div className="w-full dark:text-white flex-grow">
         <div className="w-full mt-auto dark:bg-background-dark3">
           <div className="dark:bg-background-dark3 rounded-lg p-4 shadow-md flex justify-start">
-            <CheckBox text="Do the laundry" value={true}></CheckBox>
+            <CheckBox
+              text="Do the laundry"
+              setIsDrawerOpen={setIsDrawerOpen}
+              value={true}
+            ></CheckBox>
           </div>
         </div>
       </div>

@@ -7,9 +7,14 @@ import "./CheckBox.scoped.scss";
 export type CheckBoxProps = {
   text?: string;
   value?: boolean;
+  setIsDrawerOpen: any;
 };
 
-const CheckBox = ({ text, value }: CheckBoxProps): JSX.Element => {
+const CheckBox = ({
+  text,
+  value,
+  setIsDrawerOpen,
+}: CheckBoxProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,6 +34,10 @@ const CheckBox = ({ text, value }: CheckBoxProps): JSX.Element => {
   const toggleCheckbox = () => {
     setIsChecked(!isChecked);
   };
+
+  const toggleDrawer = () => {
+    setIsDrawerOpen(true);
+  };
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Callback methods
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,19 +47,18 @@ const CheckBox = ({ text, value }: CheckBoxProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
-    <div
-      className="flex items-center space-x-3 cursor-pointer select-none"
-      onClick={toggleCheckbox}
-    >
+    <div className="flex items-center space-x-3 cursor-pointer select-none">
       <FontAwesomeIcon
         className={"transition-all duration-200  dark:text-primary-2"}
         size="xl"
         icon={isChecked ? faSquareCheck : faSquare}
+        onClick={toggleCheckbox}
       />
       <span
         className={`${
           isChecked ? "dark:text-gray-400" : "dark:text-white"
         }  transition-all duration-200 ${isChecked ? "line-through" : ""}`}
+        onClick={toggleDrawer}
       >
         {text}
       </span>
