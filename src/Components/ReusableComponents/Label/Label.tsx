@@ -1,22 +1,14 @@
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRef } from "react";
-import "./Datepicker.scoped.scss";
+import "./Label.scoped.scss";
 
-export type DatepickerProps = {};
+export type LabelProps = {
+  text: string;
+};
 
-const Datepicker = (): JSX.Element => {
+const Label = ({ text }: LabelProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const dateInputRef = useRef<HTMLInputElement>(null);
 
-  // Function to trigger the date picker when clicking on the SVG
-  const openDatePicker = () => {
-    if (dateInputRef.current) {
-      dateInputRef.current.showPicker(); // Use showPicker if supported
-    }
-  };
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useEffect
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,26 +26,10 @@ const Datepicker = (): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
-    <div className="relative max-w-sm">
-      {/* SVG Icon with onClick to trigger the date picker */}
-      <div
-        className="absolute inset-y-0 start-0 flex items-center ps-3 cursor-pointer"
-        onClick={openDatePicker}
-      >
-        <FontAwesomeIcon
-          className="dark:text-primary-2"
-          icon={faCalendar}
-        ></FontAwesomeIcon>
-      </div>
-      {/* Date Input*/}
-      <input
-        ref={dateInputRef} // Reference for the input
-        type="date"
-        className="border text-sm rounded-lg  block w-full ps-10 p-2.5 dark:bg-background-dark6 dark:border-background-dark6 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-3 dark:focus:border-primary-3"
-        placeholder="Select date"
-      />
-    </div>
+    <span className="mb-3 mt-3 text-base font-medium dark:text-white">
+      {text}
+    </span>
   );
 };
 
-export default Datepicker;
+export default Label;

@@ -32,7 +32,7 @@ const Home = ({ setIsDrawerOpen }: HomeProps): JSX.Element => {
   return (
     <div className="sm:ml-64 p-6 h-screen transition-all duration-300 flex flex-col justify-between">
       <div className="mb-6 mt-6">
-        <h1 className="dark:text-gray-100 ">Home Page</h1>
+        <h2 className="text-4xl font-bold dark:text-white">Task 1</h2>
       </div>
 
       <div className="w-full dark:text-white flex-grow">

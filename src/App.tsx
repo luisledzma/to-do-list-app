@@ -15,7 +15,7 @@ function App() {
     <div className="dark:bg-background-dark1 ">
       <SideBar />
       <div className="flex w-screen h-screen">
-        <div className={`flex-grow ${isDrawerOpen ? "mr-80" : "mr-0"} `}>
+        <div className={`flex-grow ${isDrawerOpen ? "sm:mr-80" : "mr-0"} `}>
           <Router>
             <Routes>
               <Route
@@ -27,7 +27,7 @@ function App() {
         </div>
 
         {isDrawerOpen && (
-          <div className="w-80 fixed right-0 top-0 h-full bg-background-dark2">
+          <div className="w-80 fixed right-0 top-0 h-full ">
             <Drawer onCloseDrawer={onCloseDrawer} isDrawerOpen={isDrawerOpen} />
           </div>
         )}

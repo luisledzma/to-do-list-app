@@ -1,22 +1,22 @@
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRef } from "react";
-import "./Datepicker.scoped.scss";
+import "./TextArea.scoped.scss";
 
-export type DatepickerProps = {};
+export type TextAreaProps = {
+  id: string;
+  className: string;
+  rows: number;
+  placeholder?: string;
+};
 
-const Datepicker = (): JSX.Element => {
+const TextArea = ({
+  id,
+  className,
+  rows,
+  placeholder,
+}: TextAreaProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const dateInputRef = useRef<HTMLInputElement>(null);
 
-  // Function to trigger the date picker when clicking on the SVG
-  const openDatePicker = () => {
-    if (dateInputRef.current) {
-      dateInputRef.current.showPicker(); // Use showPicker if supported
-    }
-  };
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useEffect
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,26 +34,13 @@ const Datepicker = (): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
-    <div className="relative max-w-sm">
-      {/* SVG Icon with onClick to trigger the date picker */}
-      <div
-        className="absolute inset-y-0 start-0 flex items-center ps-3 cursor-pointer"
-        onClick={openDatePicker}
-      >
-        <FontAwesomeIcon
-          className="dark:text-primary-2"
-          icon={faCalendar}
-        ></FontAwesomeIcon>
-      </div>
-      {/* Date Input*/}
-      <input
-        ref={dateInputRef} // Reference for the input
-        type="date"
-        className="border text-sm rounded-lg  block w-full ps-10 p-2.5 dark:bg-background-dark6 dark:border-background-dark6 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-3 dark:focus:border-primary-3"
-        placeholder="Select date"
-      />
-    </div>
+    <textarea
+      id={id}
+      rows={rows}
+      className="block p-2.5 w-full text-sm rounded-lg border dark:bg-background-dark6 dark:border-background-dark6 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-3 dark:focus:border-primary-3 resize-none"
+      placeholder={placeholder}
+    ></textarea>
   );
 };
 
-export default Datepicker;
+export default TextArea;

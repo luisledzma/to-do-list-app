@@ -1,7 +1,13 @@
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFloppyDisk,
+  faTrashCan,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 import Button from "../Button/Button";
 import Datepicker from "../Datepicker/Datepicker";
+import Label from "../Label/Label";
+import TextArea from "../TextArea/TextArea";
 import "./Drawer.scoped.scss";
 
 export type DrawerProps = {
@@ -40,21 +46,8 @@ const Drawer = ({ isDrawerOpen, onCloseDrawer }: DrawerProps): JSX.Element => {
       }`}
       aria-labelledby="drawer-right-label"
     >
-      <h5
-        id="drawer-right-label"
-        className="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400"
-      >
-        <svg
-          className="w-4 h-4 me-2.5"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-        </svg>
-        Task Name
-      </h5>
+      <h4 className="text-2xl font-bold dark:text-white">Details</h4>
+
       <Button
         onClick={onCloseDrawer}
         className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
@@ -62,8 +55,38 @@ const Drawer = ({ isDrawerOpen, onCloseDrawer }: DrawerProps): JSX.Element => {
         iconSize="2x"
         type={"button"}
       />
-
-      <Datepicker></Datepicker>
+      <div className="flex flex-col">
+        <Label text={"Task 1"} />
+      </div>
+      <div className="flex flex-col">
+        <Label text={"Due Date:"} />
+        <Datepicker />
+      </div>
+      <div className="flex flex-col">
+        <Label text={"Description:"} />
+        <TextArea
+          id="description"
+          rows={3}
+          placeholder="Type a description..."
+          className=""
+        />
+      </div>
+      <div className="mt-5 flex gap-2 justify-end">
+        <Button
+          type={"button"}
+          text="Delete"
+          className="w-full p-2 bg-danger-2 text-white font-semibold rounded-lg hover:bg-danger-1 transition-colors"
+          icon={faTrashCan}
+          iconSize="lg"
+        />
+        <Button
+          type={"button"}
+          text="Save"
+          className="w-full p-2 bg-primary-2 text-white font-semibold rounded-lg hover:bg-primary-1 transition-colors"
+          icon={faFloppyDisk}
+          iconSize="lg"
+        />
+      </div>
     </div>
   );
 };

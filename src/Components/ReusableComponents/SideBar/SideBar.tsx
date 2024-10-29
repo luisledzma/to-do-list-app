@@ -1,4 +1,9 @@
-import { faBars, faHouse, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faListCheck,
+  faPlus,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import Button from "../Button/Button";
 import "./SideBar.scoped.scss";
@@ -37,7 +42,7 @@ const SideBar = (): JSX.Element => {
         icon={faBars}
         iconSize="2x"
         type={"button"}
-        className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        className="absolute inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
       />
 
       <aside
@@ -50,7 +55,7 @@ const SideBar = (): JSX.Element => {
         <div className="h-full px-3 py-4 overflow-y-auto bg-background-light dark:bg-background-dark3 flex flex-col justify-between">
           <Button
             onClick={toggleSidebar}
-            className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 sm:hidden"
+            className="absolute top-3 right-3 dark:text-gray-500 dark:hover:text-gray-300 sm:hidden"
             icon={faXmark}
             iconSize="2x"
             type={"button"}
@@ -69,9 +74,9 @@ const SideBar = (): JSX.Element => {
             </a>
             <ul className="space-y-2 font-medium">
               <SidebarItem
-                text="Home"
+                text="Task 1"
                 linkTo="/home"
-                icon={faHouse}
+                icon={faListCheck}
               ></SidebarItem>
             </ul>
           </div>
@@ -81,7 +86,8 @@ const SideBar = (): JSX.Element => {
               onClick={() => {}}
               type={"button"}
               text="New List"
-              className="w-full p-3 bg-primary-2 text-gray-100 font-semibold rounded-lg hover:bg-primary-1 transition-colors"
+              className="w-full p-2 dark:bg-primary-2 dark:text-white font-semibold rounded-lg dark:hover:bg-primary-1 transition-colors"
+              icon={faPlus}
             ></Button>
           </div>
         </div>

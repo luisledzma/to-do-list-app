@@ -37,7 +37,9 @@ const LinkTo = ({
 
   return (
     <a href={linkTo} className={className}>
-      {icon && <FontAwesomeIcon icon={icon} />}
+      {icon && (
+        <FontAwesomeIcon className="text-primary-2" size="lg" icon={icon} />
+      )}
 
       <span className="ms-3">{text}</span>
     </a>
