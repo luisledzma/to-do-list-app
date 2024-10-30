@@ -1,18 +1,11 @@
-import "./InputText.scoped.scss";
+import { List } from "../../Models/Models";
+import "./HomeApi.scoped.scss";
 
-export type InputTextProps = {
-  className: string;
-  placeholder?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+export type HomeApiProps = {
+  onPageDataLoaded: (data: List[]) => void;
 };
 
-const InputText = ({
-  className,
-  placeholder,
-  value,
-  onChange,
-}: InputTextProps): JSX.Element => {
+const HomeApi = ({ onPageDataLoaded }: HomeApiProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,7 +17,21 @@ const InputText = ({
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Misc Methods
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+  // Fetch all lists
+  const getLists = async () => {
+    try {
+      const response = await fetch(`${process.env.API_BASE_URL}/lists`, {
+        method: "GET",
+      });
+      if (!response.ok) {
+        throw new Error(`Error fetching lists: ${response.statusText}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching lists:", error);
+      throw error;
+    }
+  };
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Callback methods
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,15 +40,7 @@ const InputText = ({
   // Component's render method
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  return (
-    <input
-      type="text"
-      value={value}
-      className={className}
-      placeholder={placeholder}
-      onChange={onChange}
-    ></input>
-  );
+  return <div></div>;
 };
 
-export default InputText;
+export default HomeApi;

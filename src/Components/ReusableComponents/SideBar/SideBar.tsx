@@ -1,21 +1,25 @@
 import {
-  faBars,
   faListCheck,
   faPlus,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
 import Button from "../Button/Button";
 import "./SideBar.scoped.scss";
 import SidebarItem from "./SidebarItem/SidebarItem";
 
-export type SideBarProps = {};
+export type SideBarProps = {
+  isSidebarOpen: boolean;
+  onCloseSideBar: () => void;
+};
 
-const SideBar = (): JSX.Element => {
+const SideBar = ({
+  isSidebarOpen,
+  onCloseSideBar,
+}: SideBarProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useEffect
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,9 +27,6 @@ const SideBar = (): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Misc Methods
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const toggleSidebar = () => {
-    setSidebarOpen(!isSidebarOpen);
-  };
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Callback methods
@@ -37,14 +38,6 @@ const SideBar = (): JSX.Element => {
 
   return (
     <>
-      <Button
-        onClick={toggleSidebar}
-        icon={faBars}
-        iconSize="2x"
-        type={"button"}
-        className="absolute inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-      />
-
       <aside
         id="logo-sidebar"
         className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
@@ -54,7 +47,7 @@ const SideBar = (): JSX.Element => {
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-background-light dark:bg-background-dark3 flex flex-col justify-between">
           <Button
-            onClick={toggleSidebar}
+            onClick={onCloseSideBar}
             className="absolute top-3 right-3 dark:text-gray-500 dark:hover:text-gray-300 sm:hidden"
             icon={faXmark}
             iconSize="2x"
@@ -74,7 +67,7 @@ const SideBar = (): JSX.Element => {
             </a>
             <ul className="space-y-2 font-medium">
               <SidebarItem
-                text="Task 1"
+                text="List 1"
                 linkTo="/home"
                 icon={faListCheck}
               ></SidebarItem>

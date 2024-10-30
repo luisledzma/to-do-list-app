@@ -3,9 +3,10 @@ import {
   faTrashCan,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Button from "../Button/Button";
 import Datepicker from "../Datepicker/Datepicker";
+import InputText from "../Input/InputText";
 import Label from "../Label/Label";
 import TextArea from "../TextArea/TextArea";
 import "./Drawer.scoped.scss";
@@ -19,17 +20,19 @@ const Drawer = ({ isDrawerOpen, onCloseDrawer }: DrawerProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+  const [taskTitle, setTaskTitle] = useState<string>("");
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useEffect
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    console.log(isDrawerOpen);
-  }, [isDrawerOpen]);
+    setTaskTitle("Task 1");
+  }, []);
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Misc Methods
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTaskTitle(e.target.value);
+  };
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Callback methods
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,8 +58,15 @@ const Drawer = ({ isDrawerOpen, onCloseDrawer }: DrawerProps): JSX.Element => {
         iconSize="2x"
         type={"button"}
       />
-      <div className="flex flex-col">
-        <Label text={"Task 1"} />
+      <div className="flex flex-col mt-3">
+        <InputText
+          className={
+            "w-full text-base font-bold dark:bg-transparent dark:text-white dark:placeholder:text-gray-400 border-0 focus:outline-none focus:ring-0"
+          }
+          value={taskTitle}
+          placeholder="Add a task"
+          onChange={handleChange}
+        />
       </div>
       <div className="flex flex-col">
         <Label text={"Due Date:"} />
