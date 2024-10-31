@@ -1,13 +1,14 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
-import Utilities from "../../Common/Utilities";
-import { ApiPaths } from "../../Models/Enum";
+import Utilities from "../../../Common/Utilities";
+import { ApiPaths } from "../../../Models/Enum";
 
-const HomeApi = forwardRef(
+const SideBarApi = forwardRef(
   ({ onPageDataLoaded }: any, ref: any): JSX.Element => {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // useState, useRef, useContext, etc.
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     const [isBusy, setIsBusy] = useState<boolean>(false);
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // useEffect
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,17 +17,17 @@ const HomeApi = forwardRef(
     // Misc Methods
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    const getTasksByListId = async (listId: string): Promise<any> => {
-      const result = await Utilities.GET(ApiPaths.GetTask + listId);
+    const getLists = async (): Promise<any> => {
+      const result = await Utilities.GET(ApiPaths.GetList);
       return result;
     };
     ///////////////////////////////////////////////////////////////////////////////
     // Imperative Handle for accessing the child methods from parent using ref
     ///////////////////////////////////////////////////////////////////
     useImperativeHandle(ref, () => ({
-      async loadPageData(listId: string): Promise<any> {
+      async loadPageData(): Promise<any> {
         setIsBusy(true);
-        return Promise.all([getTasksByListId(listId)])
+        return Promise.all([getLists()])
           .then((results) => {
             return results;
           })
@@ -42,4 +43,4 @@ const HomeApi = forwardRef(
   }
 );
 
-export default HomeApi;
+export default SideBarApi;

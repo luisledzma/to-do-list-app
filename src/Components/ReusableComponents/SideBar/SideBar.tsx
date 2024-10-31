@@ -3,8 +3,12 @@ import {
   faPlus,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useRef, useState } from "react";
+import { SideBarImperativeModel } from "../../../Models/ImperativeModel";
+import { List } from "../../../Models/Models";
 import Button from "../Button/Button";
 import "./SideBar.scoped.scss";
+import SideBarApi from "./SideBarApi";
 import SidebarItem from "./SidebarItem/SidebarItem";
 
 export type SideBarProps = {
@@ -19,10 +23,15 @@ const SideBar = ({
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+  const api = useRef<SideBarImperativeModel>();
+  const [listData, setListData] = useState<List[]>([]);
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useEffect
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  useEffect(() => {
+    onPageDataLoaded();
+  }, []);
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Misc Methods
@@ -31,13 +40,17 @@ const SideBar = ({
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Callback methods
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+  const onPageDataLoaded = async () => {
+    const newList = await api.current?.loadPageData();
+    setListData(newList[0]);
+  };
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Component's render method
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <>
+      <SideBarApi ref={api}></SideBarApi>
       <aside
         id="logo-sidebar"
         className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
@@ -55,6 +68,7 @@ const SideBar = ({
           />
 
           <div>
+            {/* <Skeleton listCount={4}></Skeleton> */}
             <a href="/home" className="flex items-center ps-2.5 mb-5">
               <img
                 src="https://res.cdn.office.net/todo/2151454_2.125.2/icons/logo.png"
@@ -66,11 +80,14 @@ const SideBar = ({
               </span>
             </a>
             <ul className="space-y-2 font-medium">
-              <SidebarItem
-                text="List 1"
-                linkTo="/home"
-                icon={faListCheck}
-              ></SidebarItem>
+              {listData.map((item, index) => (
+                <SidebarItem
+                  key={index}
+                  text={item.title}
+                  linkTo={item._id}
+                  icon={faListCheck}
+                ></SidebarItem>
+              ))}
             </ul>
           </div>
 

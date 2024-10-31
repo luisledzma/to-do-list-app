@@ -10,6 +10,7 @@ import SideBar from "./Components/ReusableComponents/SideBar/SideBar";
 function App() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+
   const onCloseDrawer = () => {
     setIsDrawerOpen(false);
   };
@@ -57,7 +58,7 @@ function App() {
           <Router>
             <Routes>
               <Route
-                path="/home"
+                path="/:id"
                 element={<Home setIsDrawerOpen={setIsDrawerOpen} />}
               />
             </Routes>
