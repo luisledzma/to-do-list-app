@@ -1,4 +1,5 @@
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useContext, useImperativeHandle } from "react";
+import { GlobalContext } from "../../../Common/GlobalContext";
 import Utilities from "../../../Common/Utilities";
 import { ApiPaths } from "../../../Models/Enum";
 
@@ -7,7 +8,7 @@ const SideBarApi = forwardRef(
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // useState, useRef, useContext, etc.
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    const [isBusy, setIsBusy] = useState<boolean>(false);
+    const { setIsBusy } = useContext(GlobalContext);
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // useEffect
@@ -29,7 +30,7 @@ const SideBarApi = forwardRef(
         setIsBusy(true);
         return Promise.all([getLists()])
           .then((results) => {
-            return results;
+            return results[0];
           })
           .finally(() => setIsBusy(false));
       },

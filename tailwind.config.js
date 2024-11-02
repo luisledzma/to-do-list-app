@@ -19,9 +19,9 @@ module.exports = {
           3: "#5685BB"
         },
         secondary:{
-          1: "#A16228",
-          2: "#B37646",
-          3: "#C58B64"
+          1: "#f3b229",
+          2: "#f4bb43",
+          3: "#f6c661"
         },
         danger:{
           1: "#A13128",
@@ -41,6 +41,9 @@ module.exports = {
 
        
       
+      },
+      maxWidth: {
+        'tiny-spinner': '20rem', // Adds a custom class for 20rem
       },
     },
   },

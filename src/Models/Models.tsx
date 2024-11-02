@@ -15,3 +15,10 @@ export type Task = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type ListTask = {
+  _id?: string;
+  title?: string;
+  icon?: string;
+  tasks?: Task[];
+};

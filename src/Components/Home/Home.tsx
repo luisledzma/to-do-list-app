@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { HomeImperativeModel } from "../../Models/ImperativeModel";
-import { Task } from "../../Models/Models";
+import { ListTask } from "../../Models/Models";
 import CheckBox from "../ReusableComponents/CheckBox/CheckBox";
 import InputText from "../ReusableComponents/Input/InputText";
 import "./Home.scoped.scss";
@@ -19,15 +19,17 @@ const Home = ({ setIsDrawerOpen }: HomeProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const api = useRef<HomeImperativeModel>();
   const [listTitle, setListTitle] = useState<string>("");
-  const [taskData, setTaskData] = useState<Task[]>();
+  const [data, setData] = useState<ListTask>({
+    _id: "",
+    title: "",
+    icon: "",
+    tasks: [],
+  });
   const { id } = useParams();
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useEffect
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  useEffect(() => {
-    setListTitle("List 1");
-  }, []);
 
   useEffect(() => {
     onPageDataLoaded();
@@ -44,8 +46,9 @@ const Home = ({ setIsDrawerOpen }: HomeProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const onPageDataLoaded = async () => {
     if (id) {
-      const taskData = await api.current?.loadPageData(id);
-      setTaskData(taskData[0]);
+      const listTaskData: ListTask = await api.current?.loadPageData(id);
+
+      setData(listTaskData);
     }
   };
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,24 +64,26 @@ const Home = ({ setIsDrawerOpen }: HomeProps): JSX.Element => {
             className={
               "w-full text-4xl font-bold dark:bg-transparent dark:text-white dark:placeholder:text-gray-400 border-0 focus:outline-none focus:ring-0"
             }
-            value={listTitle}
+            value={data?.title}
             placeholder="Add a list name"
             onChange={handleChange}
           />
         </div>
-        {taskData?.map((item, index) => (
-          <div key={index} className="w-full dark:text-white flex-grow">
-            <div className="w-full mt-auto dark:bg-background-dark3">
-              <div className="dark:bg-background-dark3 rounded-lg p-4 shadow-md flex justify-start">
-                <CheckBox
-                  text={item.title}
-                  setIsDrawerOpen={setIsDrawerOpen}
-                  value={item.completed}
-                ></CheckBox>
+        <div>
+          {data?.tasks?.map((item, index) => (
+            <div key={index} className="w-full dark:text-white flex-grow mb-3">
+              <div className="w-full mt-auto dark:bg-background-dark3">
+                <div className="dark:bg-background-dark3 rounded-lg p-4 shadow-md flex justify-start">
+                  <CheckBox
+                    text={item.title}
+                    setIsDrawerOpen={setIsDrawerOpen}
+                    value={item.completed}
+                  ></CheckBox>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
 
         <div className="w-full mt-auto dark:bg-background-dark3">
           <div className="dark:bg-background-dark3 rounded-lg p-4 shadow-md flex justify-start">
