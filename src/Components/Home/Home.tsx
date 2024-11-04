@@ -11,9 +11,15 @@ import HomeApi from "./HomeApi";
 
 export type HomeProps = {
   setIsDrawerOpen: any;
+  setIsDataUpdated: any;
+  setSelectedTask: any;
 };
 
-const Home = ({ setIsDrawerOpen }: HomeProps): JSX.Element => {
+const Home = ({
+  setIsDrawerOpen,
+  setIsDataUpdated,
+  setSelectedTask,
+}: HomeProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,19 +41,34 @@ const Home = ({ setIsDrawerOpen }: HomeProps): JSX.Element => {
     onPageDataLoaded();
   }, []);
 
+  useEffect(() => {
+    if (data.title !== undefined) {
+      setListTitle(data.title);
+    }
+  }, [data]);
+
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Misc Methods
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setListTitle(e.target.value);
   };
+
+  const handleKeyDown = async (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key === "Enter") {
+      await api.current?.updateList(id, listTitle);
+      setIsDataUpdated(true);
+    }
+  };
+
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Callback methods
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const onPageDataLoaded = async () => {
     if (id) {
       const listTaskData: ListTask = await api.current?.loadPageData(id);
-
       setData(listTaskData);
     }
   };
@@ -64,9 +85,10 @@ const Home = ({ setIsDrawerOpen }: HomeProps): JSX.Element => {
             className={
               "w-full text-4xl font-bold dark:bg-transparent dark:text-white dark:placeholder:text-gray-400 border-0 focus:outline-none focus:ring-0"
             }
-            value={data?.title}
+            value={listTitle}
             placeholder="Add a list name"
             onChange={handleChange}
+            onKeyDown={handleKeyDown}
           />
         </div>
         <div>
@@ -78,6 +100,8 @@ const Home = ({ setIsDrawerOpen }: HomeProps): JSX.Element => {
                     text={item.title}
                     setIsDrawerOpen={setIsDrawerOpen}
                     value={item.completed}
+                    item={item}
+                    setSelectedTask={setSelectedTask}
                   ></CheckBox>
                 </div>
               </div>

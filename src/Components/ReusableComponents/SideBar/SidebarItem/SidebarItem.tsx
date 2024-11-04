@@ -3,9 +3,9 @@ import LinkTo from "../../LinkTo/LinkTo";
 import "./SidebarItem.scoped.scss";
 
 export type SidebarItemProps = {
-  text: string;
-  icon: IconDefinition;
-  linkTo: string;
+  text?: string;
+  icon?: IconDefinition;
+  linkTo?: string;
 };
 
 const SidebarItem = ({ text, icon, linkTo }: SidebarItemProps): JSX.Element => {

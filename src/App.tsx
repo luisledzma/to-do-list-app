@@ -9,11 +9,14 @@ import Drawer from "./Components/ReusableComponents/Drawer/Drawer";
 import SideBar from "./Components/ReusableComponents/SideBar/SideBar";
 import Spinner from "./Components/ReusableComponents/Spinner/Spinner";
 import { GlobalContextModel } from "./Models/GlobalContextModel";
+import { Task } from "./Models/Models";
 
 function App() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [isDataUpdated, setIsDataUpdated] = useState<boolean>(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isBusy, setIsBusy] = useState<boolean>(false);
+  const [selectedTask, setSelectedTask] = useState<Task>();
   const [isBusyMessage, setIsBusyMessage] = useState<string>(
     "Loading, please wait..."
   );
@@ -71,6 +74,8 @@ function App() {
               <SideBar
                 onCloseSideBar={onCloseSideBar}
                 isSidebarOpen={isSidebarOpen}
+                isDataUpdated={isDataUpdated}
+                setIsDataUpdated={setIsDataUpdated}
               />
             </div>
           </>
@@ -78,6 +83,8 @@ function App() {
           <SideBar
             onCloseSideBar={onCloseSideBar}
             isSidebarOpen={isSidebarOpen}
+            isDataUpdated={isDataUpdated}
+            setIsDataUpdated={setIsDataUpdated}
           />
         )}
         {/* <SideBar /> */}
@@ -87,7 +94,13 @@ function App() {
               <Routes>
                 <Route
                   path="/:id"
-                  element={<Home setIsDrawerOpen={setIsDrawerOpen} />}
+                  element={
+                    <Home
+                      setIsDataUpdated={setIsDataUpdated}
+                      setIsDrawerOpen={setIsDrawerOpen}
+                      setSelectedTask={setSelectedTask}
+                    />
+                  }
                 />
               </Routes>
             </Router>
@@ -106,6 +119,7 @@ function App() {
                 <Drawer
                   onCloseDrawer={onCloseDrawer}
                   isDrawerOpen={isDrawerOpen}
+                  selectedTask={selectedTask}
                 />
               </div>
             </>

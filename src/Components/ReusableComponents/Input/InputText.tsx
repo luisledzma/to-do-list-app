@@ -5,6 +5,7 @@ export type InputTextProps = {
   placeholder?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
 };
 
 const InputText = ({
@@ -12,6 +13,7 @@ const InputText = ({
   placeholder,
   value,
   onChange,
+  onKeyDown,
 }: InputTextProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
@@ -40,6 +42,7 @@ const InputText = ({
       className={className}
       placeholder={placeholder}
       onChange={onChange}
+      onKeyDown={onKeyDown}
     ></input>
   );
 };

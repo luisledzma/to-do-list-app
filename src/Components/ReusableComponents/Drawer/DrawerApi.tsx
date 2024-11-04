@@ -1,14 +1,15 @@
 import { forwardRef, useContext, useImperativeHandle } from "react";
-import { GlobalContext } from "../../Common/GlobalContext";
-import Utilities from "../../Common/Utilities";
-import { ApiPaths } from "../../Models/Enum";
+import { GlobalContext } from "../../../Common/GlobalContext";
+import Utilities from "../../../Common/Utilities";
+import { ApiPaths } from "../../../Models/Enum";
 
-const HomeApi = forwardRef(
+const DrawerApi = forwardRef(
   ({ onPageDataLoaded }: any, ref: any): JSX.Element => {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // useState, useRef, useContext, etc.
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     const { setIsBusy } = useContext(GlobalContext);
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // useEffect
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -17,44 +18,45 @@ const HomeApi = forwardRef(
     // Misc Methods
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    const getTasksByListId = async (listId: string): Promise<any> => {
-      const result = await Utilities.GET(ApiPaths.GetTask + listId);
-      return result;
-    };
-
-    const updateList = async (
-      listId?: string,
+    const updateTask = async (
+      id: string,
       title?: string,
-      icon?: string
+      dueDate?: Date,
+      description?: string
     ): Promise<any> => {
       const body = {
         ...(title && { title }),
-        ...(icon && { icon }),
+        ...(dueDate && { dueDate }),
+        ...(description && { description }),
       };
-      console.log("body", body);
-      const result = await Utilities.PATCH(ApiPaths.PatchList + listId, body);
+      const result = await Utilities.PATCH(ApiPaths.PatchTask + id, body);
       return result;
     };
 
+    const deleteTask = async (id: string): Promise<any> => {
+      const result = await Utilities.DELETE(ApiPaths.PatchTask + id);
+      return result;
+    };
     ///////////////////////////////////////////////////////////////////////////////
     // Imperative Handle for accessing the child methods from parent using ref
     ///////////////////////////////////////////////////////////////////
     useImperativeHandle(ref, () => ({
-      async loadPageData(listId: string): Promise<any> {
+      async updateTask(
+        id: string,
+        title?: string,
+        dueDate?: Date,
+        description?: string
+      ): Promise<any> {
         setIsBusy(true);
-        return Promise.all([getTasksByListId(listId)])
+        return Promise.all([updateTask(id, title, dueDate, description)])
           .then((results) => {
-            return results[0];
+            return results;
           })
           .finally(() => setIsBusy(false));
       },
-      async updateList(
-        listId?: string,
-        title?: string,
-        icon?: string
-      ): Promise<any> {
+      async deleteTask(id: string): Promise<any> {
         setIsBusy(true);
-        return Promise.all([updateList(listId, title, icon)])
+        return Promise.all([deleteTask(id)])
           .then((results) => {
             return results;
           })
@@ -70,4 +72,4 @@ const HomeApi = forwardRef(
   }
 );
 
-export default HomeApi;
+export default DrawerApi;

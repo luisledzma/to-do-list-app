@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./LinkTo.scoped.scss";
 
 export type LinkToProps = {
-  linkTo: string;
+  linkTo?: string;
   className?: string;
   icon?: IconDefinition;
   text?: string;

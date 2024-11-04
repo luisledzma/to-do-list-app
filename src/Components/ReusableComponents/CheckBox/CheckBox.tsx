@@ -2,18 +2,23 @@ import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+import { Task } from "../../../Models/Models";
 import "./CheckBox.scoped.scss";
 
 export type CheckBoxProps = {
   text?: string;
   value?: boolean;
   setIsDrawerOpen: any;
+  setSelectedTask: any;
+  item?: Task;
 };
 
 const CheckBox = ({
   text,
   value,
   setIsDrawerOpen,
+  setSelectedTask,
+  item,
 }: CheckBoxProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
@@ -37,6 +42,7 @@ const CheckBox = ({
 
   const toggleDrawer = () => {
     setIsDrawerOpen(true);
+    setSelectedTask(item);
   };
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Callback methods

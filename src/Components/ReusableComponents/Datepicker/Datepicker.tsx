@@ -3,9 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef } from "react";
 import "./Datepicker.scoped.scss";
 
-export type DatepickerProps = {};
+export type DatepickerProps = {
+  value?: Date;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
-const Datepicker = (): JSX.Element => {
+const Datepicker = ({ value, onChange }: DatepickerProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +54,8 @@ const Datepicker = (): JSX.Element => {
         type="date"
         className="border text-sm rounded-lg  block w-full ps-10 p-2.5 dark:bg-background-dark6 dark:border-background-dark6 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-3 dark:focus:border-primary-3"
         placeholder="Select date"
+        value={value ? new Date(value).toISOString().split("T")[0] : ""}
+        onChange={onChange}
       />
     </div>
   );

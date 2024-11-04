@@ -14,11 +14,15 @@ import SidebarItem from "./SidebarItem/SidebarItem";
 export type SideBarProps = {
   isSidebarOpen: boolean;
   onCloseSideBar: () => void;
+  isDataUpdated: boolean;
+  setIsDataUpdated: any;
 };
 
 const SideBar = ({
   isSidebarOpen,
   onCloseSideBar,
+  isDataUpdated,
+  setIsDataUpdated,
 }: SideBarProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
@@ -32,6 +36,13 @@ const SideBar = ({
   useEffect(() => {
     onPageDataLoaded();
   }, []);
+
+  useEffect(() => {
+    if (isDataUpdated) {
+      onPageDataLoaded();
+      setIsDataUpdated(false);
+    }
+  }, [isDataUpdated, setIsDataUpdated]);
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Misc Methods
