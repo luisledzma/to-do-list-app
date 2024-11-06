@@ -1,7 +1,8 @@
 import { faSquareCheck } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
+import { GlobalContext } from "../../Common/GlobalContext";
 import { HomeImperativeModel } from "../../Models/ImperativeModel";
 import { ListTask } from "../../Models/Models";
 import CheckBox from "../ReusableComponents/CheckBox/CheckBox";
@@ -10,21 +11,16 @@ import "./Home.scoped.scss";
 import HomeApi from "./HomeApi";
 
 export type HomeProps = {
-  setIsDrawerOpen: any;
-  setIsDataUpdated: any;
-  setSelectedTask: any;
+  isDataTaskUpdated: boolean;
 };
 
-const Home = ({
-  setIsDrawerOpen,
-  setIsDataUpdated,
-  setSelectedTask,
-}: HomeProps): JSX.Element => {
+const Home = ({ isDataTaskUpdated }: HomeProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const api = useRef<HomeImperativeModel>();
   const [listTitle, setListTitle] = useState<string>("");
+  const [taskTitle, setTaskTitle] = useState<string>("");
   const [data, setData] = useState<ListTask>({
     _id: "",
     title: "",
@@ -32,14 +28,11 @@ const Home = ({
     tasks: [],
   });
   const { id } = useParams();
+  const { setIsDataUpdated, setIsDataTaskUpdated } = useContext(GlobalContext);
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useEffect
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  useEffect(() => {
-    onPageDataLoaded();
-  }, []);
 
   useEffect(() => {
     if (data.title !== undefined) {
@@ -63,15 +56,38 @@ const Home = ({
     }
   };
 
+  const onAddTask = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      await api.current?.addTask(id, taskTitle, false, undefined, "");
+      setIsDataUpdated(true);
+      setIsDataTaskUpdated(true);
+      setTaskTitle("");
+    }
+  };
+
+  const handleTaskChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTaskTitle(e.target.value);
+  };
+
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Callback methods
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const onPageDataLoaded = async () => {
+  const onPageDataLoaded = useCallback(async () => {
     if (id) {
-      const listTaskData: ListTask = await api.current?.loadPageData(id);
+      const listTaskData = await api.current?.loadPageData(id);
       setData(listTaskData);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    onPageDataLoaded();
+  }, [onPageDataLoaded]);
+
+  useEffect(() => {
+    onPageDataLoaded();
+    setIsDataTaskUpdated(false);
+  }, [isDataTaskUpdated, onPageDataLoaded, setIsDataTaskUpdated]);
+
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Component's render method
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,10 +114,8 @@ const Home = ({
                 <div className="dark:bg-background-dark3 rounded-lg p-4 shadow-md flex justify-start">
                   <CheckBox
                     text={item.title}
-                    setIsDrawerOpen={setIsDrawerOpen}
                     value={item.completed}
                     item={item}
-                    setSelectedTask={setSelectedTask}
                   ></CheckBox>
                 </div>
               </div>
@@ -120,7 +134,10 @@ const Home = ({
               className={
                 "w-full pl-3 dark:bg-transparent dark:text-white dark:placeholder:text-gray-400 border-0 focus:outline-none focus:ring-0"
               }
+              value={taskTitle}
               placeholder="Add a task"
+              onKeyDown={onAddTask}
+              onChange={handleTaskChange}
             />
           </div>
         </div>

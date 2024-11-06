@@ -65,6 +65,31 @@ class Utilities {
       }
     });
   };
+
+  public POST = (path: string, formData: any): Promise<Response> => {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify(formData);
+    return fetch(process.env.REACT_APP_API + path, {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    }).then((response) => {
+      if (response.ok !== true) {
+        return response.json().then((text) => {
+          throw new Error(
+            text?.errorResult?.errorMessage?.includes("authorized")
+              ? "You are not authorized"
+              : text?.errorResult?.errorMessage
+          );
+        });
+      } else {
+        return response.json();
+      }
+    });
+  };
 }
 // eslint-disable-next-line import/no-anonymous-default-export
 export default new Utilities();

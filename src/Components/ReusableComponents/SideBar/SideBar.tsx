@@ -3,7 +3,8 @@ import {
   faPlus,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { GlobalContext } from "../../../Common/GlobalContext";
 import { SideBarImperativeModel } from "../../../Models/ImperativeModel";
 import { List } from "../../../Models/Models";
 import Button from "../Button/Button";
@@ -15,20 +16,19 @@ export type SideBarProps = {
   isSidebarOpen: boolean;
   onCloseSideBar: () => void;
   isDataUpdated: boolean;
-  setIsDataUpdated: any;
 };
 
 const SideBar = ({
   isSidebarOpen,
   onCloseSideBar,
   isDataUpdated,
-  setIsDataUpdated,
 }: SideBarProps): JSX.Element => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useState, useRef, useContext, etc.
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const api = useRef<SideBarImperativeModel>();
   const [listData, setListData] = useState<List[]>([]);
+  const { setIsDataUpdated } = useContext(GlobalContext);
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useEffect
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,10 @@ const SideBar = ({
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Misc Methods
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+  const onClick = async () => {
+    await api.current?.addList("Unknown", "");
+    setIsDataUpdated(true);
+  };
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Callback methods
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,7 +82,6 @@ const SideBar = ({
           />
 
           <div>
-            {/* <Skeleton listCount={4}></Skeleton> */}
             <a href="/home" className="flex items-center ps-2.5 mb-5">
               <img
                 src="https://res.cdn.office.net/todo/2151454_2.125.2/icons/logo.png"
@@ -104,7 +106,7 @@ const SideBar = ({
 
           <div className="mt-4">
             <Button
-              onClick={() => {}}
+              onClick={onClick}
               type={"button"}
               text="New List"
               className="w-full p-2 dark:bg-primary-2 dark:text-white font-semibold rounded-lg dark:hover:bg-primary-1 transition-colors"

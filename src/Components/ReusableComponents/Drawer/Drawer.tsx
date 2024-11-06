@@ -3,7 +3,8 @@ import {
   faTrashCan,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { GlobalContext } from "../../../Common/GlobalContext";
 import { DrawerImperativeModel } from "../../../Models/ImperativeModel";
 import Button from "../Button/Button";
 import Datepicker from "../Datepicker/Datepicker";
@@ -31,6 +32,7 @@ const Drawer = ({
   const [taskTitle, setTaskTitle] = useState<string>("");
   const [dueDate, setDueDate] = useState<Date>();
   const [description, setDescription] = useState<string>("");
+  const { setIsDataTaskUpdated } = useContext(GlobalContext);
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // useEffect
@@ -39,7 +41,7 @@ const Drawer = ({
     setTaskTitle(selectedTask.title);
     setDueDate(selectedTask.dueDate);
     setDescription(selectedTask.description);
-  }, []);
+  }, [selectedTask.description, selectedTask.dueDate, selectedTask.title]);
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Misc Methods
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,17 +58,20 @@ const Drawer = ({
   };
 
   const onClick = async () => {
-    console.log("Clicked");
     await api.current?.updateTask(
       selectedTask._id,
       taskTitle,
       dueDate,
       description
     );
+    setIsDataTaskUpdated(true);
+    onCloseDrawer();
   };
 
   const onDelete = async () => {
     await api.current?.deleteTask(selectedTask._id);
+    setIsDataTaskUpdated(true);
+    onCloseDrawer();
   };
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Callback methods

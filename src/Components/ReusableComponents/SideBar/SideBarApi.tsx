@@ -22,6 +22,16 @@ const SideBarApi = forwardRef(
       const result = await Utilities.GET(ApiPaths.GetList);
       return result;
     };
+
+    const addList = async (title?: string, icon?: string): Promise<any> => {
+      const body = {
+        ...(title && { title }),
+        ...(icon && { icon }),
+      };
+      const result = await Utilities.POST(ApiPaths.PostList, body);
+      return result;
+    };
+
     ///////////////////////////////////////////////////////////////////////////////
     // Imperative Handle for accessing the child methods from parent using ref
     ///////////////////////////////////////////////////////////////////
@@ -29,6 +39,14 @@ const SideBarApi = forwardRef(
       async loadPageData(): Promise<any> {
         setIsBusy(true);
         return Promise.all([getLists()])
+          .then((results) => {
+            return results[0];
+          })
+          .finally(() => setIsBusy(false));
+      },
+      async addList(title?: string, icon?: string): Promise<any> {
+        setIsBusy(true);
+        return Promise.all([addList(title, icon)])
           .then((results) => {
             return results[0];
           })

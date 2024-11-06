@@ -12,8 +12,12 @@ import { GlobalContextModel } from "./Models/GlobalContextModel";
 import { Task } from "./Models/Models";
 
 function App() {
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // useState, useRef, useContext, etc.
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isDataUpdated, setIsDataUpdated] = useState<boolean>(false);
+  const [isDataTaskUpdated, setIsDataTaskUpdated] = useState<boolean>(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isBusy, setIsBusy] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<Task>();
@@ -24,8 +28,25 @@ function App() {
     setIsBusy(show, message) {
       setIsBusySpinner(show, message);
     },
+    setIsDrawerOpen(isOpen) {
+      setIsDrawerOpen(isOpen);
+    },
+    setIsDataUpdated(isUpdated) {
+      setIsDataUpdated(isUpdated);
+    },
+    setIsDataTaskUpdated(isUpdated) {
+      setIsDataTaskUpdated(isUpdated);
+    },
+    setIsSidebarOpen(isOpen) {
+      setSidebarOpen(isOpen);
+    },
+    setSelectedTask(task) {
+      setSelectedTask(task);
+    },
   });
-
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // Misc Methods
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const onCloseDrawer = () => {
     setIsDrawerOpen(false);
   };
@@ -35,20 +56,31 @@ function App() {
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
   };
-
   const setIsBusySpinner = (show: boolean, message?: string) => {
     setIsBusy(show);
     if (message) setIsBusyMessage(message);
   };
 
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // useEffect for Context
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   useEffect(() => {
     const clone = JSON.parse(
       JSON.stringify(globalContext)
     ) as GlobalContextModel;
-    // Set setIsBusy
     clone.setIsBusy = setIsBusy;
+    clone.setIsDrawerOpen = setIsDrawerOpen;
+    clone.setIsDataUpdated = setIsDataUpdated;
+    clone.setIsDataTaskUpdated = setIsDataTaskUpdated;
+    clone.setIsSidebarOpen = setSidebarOpen;
+    clone.setSelectedTask = setSelectedTask;
     setGlobalContext(clone);
   }, []);
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // Component's render method
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <div className="dark:bg-background-dark1 ">
@@ -63,19 +95,15 @@ function App() {
         />
         {isSidebarOpen ? (
           <>
-            {/* Backdrop */}
             <div
               className="fixed inset-0 bg-black bg-opacity-50 z-40"
-              onClick={onCloseSideBar} // Closes the sidebar on backdrop click
+              onClick={onCloseSideBar}
             ></div>
-
-            {/* Sidebar */}
             <div className="fixed left-0 top-0 h-full z-50">
               <SideBar
                 onCloseSideBar={onCloseSideBar}
                 isSidebarOpen={isSidebarOpen}
                 isDataUpdated={isDataUpdated}
-                setIsDataUpdated={setIsDataUpdated}
               />
             </div>
           </>
@@ -84,23 +112,15 @@ function App() {
             onCloseSideBar={onCloseSideBar}
             isSidebarOpen={isSidebarOpen}
             isDataUpdated={isDataUpdated}
-            setIsDataUpdated={setIsDataUpdated}
           />
         )}
-        {/* <SideBar /> */}
         <div className="flex w-screen h-screen">
           <div className={`flex-grow ${isDrawerOpen ? "sm:mr-80" : "mr-0"} `}>
             <Router>
               <Routes>
                 <Route
                   path="/:id"
-                  element={
-                    <Home
-                      setIsDataUpdated={setIsDataUpdated}
-                      setIsDrawerOpen={setIsDrawerOpen}
-                      setSelectedTask={setSelectedTask}
-                    />
-                  }
+                  element={<Home isDataTaskUpdated={isDataTaskUpdated} />}
                 />
               </Routes>
             </Router>
@@ -108,13 +128,10 @@ function App() {
 
           {isDrawerOpen && (
             <>
-              {/* Backdrop */}
               <div
                 className="fixed inset-0 bg-black bg-opacity-50 z-40"
                 onClick={onCloseDrawer}
               ></div>
-
-              {/* Drawer */}
               <div className="w-80 fixed right-0 top-0 h-full z-50">
                 <Drawer
                   onCloseDrawer={onCloseDrawer}

@@ -31,8 +31,36 @@ const HomeApi = forwardRef(
         ...(title && { title }),
         ...(icon && { icon }),
       };
-      console.log("body", body);
       const result = await Utilities.PATCH(ApiPaths.PatchList + listId, body);
+      return result;
+    };
+
+    const addTask = async (
+      listId?: string,
+      title?: string,
+      completed?: boolean,
+      dueDate?: Date,
+      description?: string
+    ): Promise<any> => {
+      const body = {
+        ...(listId && { listId }),
+        ...(title && { title }),
+        ...(completed && { completed }),
+        ...(dueDate && { dueDate }),
+        ...(description && { description }),
+      };
+      const result = await Utilities.POST(ApiPaths.PostTask, body);
+      return result;
+    };
+
+    const updateTask = async (
+      id?: string,
+      completed?: boolean
+    ): Promise<any> => {
+      const body = {
+        completed,
+      };
+      const result = await Utilities.PATCH(ApiPaths.PatchTask + id, body);
       return result;
     };
 
@@ -55,6 +83,30 @@ const HomeApi = forwardRef(
       ): Promise<any> {
         setIsBusy(true);
         return Promise.all([updateList(listId, title, icon)])
+          .then((results) => {
+            return results;
+          })
+          .finally(() => setIsBusy(false));
+      },
+      async addTask(
+        listId?: string,
+        title?: string,
+        completed?: boolean,
+        dueDate?: Date,
+        description?: string
+      ): Promise<any> {
+        setIsBusy(true);
+        return Promise.all([
+          addTask(listId, title, completed, dueDate, description),
+        ])
+          .then((results) => {
+            return results;
+          })
+          .finally(() => setIsBusy(false));
+      },
+      async updateTask(id: string, completed: boolean): Promise<any> {
+        setIsBusy(true);
+        return Promise.all([updateTask(id, completed)])
           .then((results) => {
             return results;
           })
